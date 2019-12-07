@@ -3,17 +3,15 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+/**
+ * Interface UserRepository
+ *
+ * @package App\Domain\User
+ */
 interface UserRepository
 {
     /**
-     * @return User[]
+     * @return UserDTOCollection
      */
-    public function findAll(): array;
-
-    /**
-     * @param int $id
-     * @return User
-     * @throws UserNotFoundException
-     */
-    public function findUserOfId(int $id): User;
+    public function findAll(): UserDTOCollection;
 }
