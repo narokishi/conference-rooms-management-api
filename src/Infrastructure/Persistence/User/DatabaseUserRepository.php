@@ -5,7 +5,7 @@ namespace App\Infrastructure\Persistence\User;
 
 use App\Domain\User\UserDTO;
 use App\Domain\User\UserDTOCollection;
-use App\Domain\User\UserRepository;
+use App\Domain\User\UserRepositoryInterface;
 use App\Infrastructure\AbstractDatabaseRepository;
 
 /**
@@ -13,7 +13,7 @@ use App\Infrastructure\AbstractDatabaseRepository;
  *
  * @package App\Infrastructure\Persistence\User
  */
-final class DatabaseUserRepository extends AbstractDatabaseRepository implements UserRepository
+final class DatabaseUserRepository extends AbstractDatabaseRepository implements UserRepositoryInterface
 {
     /**
      * @return UserDTOCollection

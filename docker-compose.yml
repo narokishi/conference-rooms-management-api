@@ -1,6 +1,23 @@
 version: '3.7'
 
+volumes:
+    db-data:
+        driver: local
+
 services:
+    postgres:
+        container_name: ${COMPOSE_PROJECT_NAME}_pgsql
+        image: postgres
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        ports:
+            - "0.0.0.0:55432:5432"
+        restart: unless-stopped
+
     nginx:
         container_name: ${COMPOSE_PROJECT_NAME}_nginx
         image: nginx:alpine

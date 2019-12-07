@@ -24,5 +24,24 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
+        \PDO::class => function (ContainerInterface $c) {
+            $dbSettings = (object) $c->get('settings')['db'];
+
+            $pdo = new \PDO(sprintf(
+                '%s:host=%s;port=%d;dbname=%s;user=%s;password=%s',
+                $dbSettings->driver,
+                $dbSettings->host,
+                $dbSettings->port,
+                $dbSettings->dbname,
+                $dbSettings->user,
+                $dbSettings->password
+            ));
+
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
+
+            return $pdo;
+        }
     ]);
 };

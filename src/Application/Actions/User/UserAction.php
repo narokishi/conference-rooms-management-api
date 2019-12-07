@@ -4,23 +4,26 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use App\Application\Actions\Action;
-use App\Domain\User\UserRepository;
+use App\Domain\User\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 
 abstract class UserAction extends Action
 {
     /**
-     * @var UserRepository
+     * @var UserRepositoryInterface
      */
-    protected $userRepository;
+    protected UserRepositoryInterface $userRepository;
 
     /**
      * @param LoggerInterface $logger
-     * @param UserRepository  $userRepository
+     * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(LoggerInterface $logger, UserRepository $userRepository)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        UserRepositoryInterface $userRepository
+    ) {
         parent::__construct($logger);
+
         $this->userRepository = $userRepository;
     }
 }

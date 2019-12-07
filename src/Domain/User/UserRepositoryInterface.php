@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace App\Domain\User;
 
 /**
- * Interface UserRepository
+ * Interface UserRepositoryInterface
  *
  * @package App\Domain\User
  */
-interface UserRepository
+interface UserRepositoryInterface
 {
     /**
      * @return UserDTOCollection
