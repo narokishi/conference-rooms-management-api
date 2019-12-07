@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 ARG TIMEZONE
 ARG DOCKER_USER
 
