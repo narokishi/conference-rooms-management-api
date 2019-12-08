@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Actions\User\ListUsersAction;
+use App\Application\Actions\User\ListUsersUserAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -17,7 +17,7 @@ return function (App $app) {
     $app->group('/api', function (Group $group) {
         $group->group('/v1', function (Group $group) {
             $group->group('/users', function (Group $group) {
-                $group->get('', ListUsersAction::class);
+                $group->get('', ListUsersUserAction::class);
             });
         });
     });

@@ -3,33 +3,38 @@ declare(strict_types=1);
 
 namespace App\Application\Actions;
 
-use JsonSerializable;
-
-class ActionPayload implements JsonSerializable
+/**
+ * Class ActionPayload
+ *
+ * @package App\Application\Actions
+ */
+class ActionPayload implements \JsonSerializable
 {
     /**
      * @var int
      */
-    private $statusCode;
+    private int $statusCode;
 
     /**
-     * @var array|object|null
+     * @var \JsonSerializable|null
      */
-    private $data;
+    private ?\JsonSerializable $data;
 
     /**
      * @var ActionError|null
      */
-    private $error;
+    private ?ActionError $error;
 
     /**
-     * @param int                   $statusCode
-     * @param array|object|null     $data
-     * @param ActionError|null      $error
+     * ActionPayload constructor.
+     *
+     * @param int $statusCode
+     * @param \JsonSerializable|null $data
+     * @param ActionError|null $error
      */
     public function __construct(
         int $statusCode = 200,
-        $data = null,
+        \JsonSerializable $data = null,
         ?ActionError $error = null
     ) {
         $this->statusCode = $statusCode;
@@ -70,9 +75,9 @@ class ActionPayload implements JsonSerializable
             'statusCode' => $this->statusCode,
         ];
 
-        if ($this->data !== null) {
+        if ($this->data instanceof \JsonSerializable) {
             $payload['data'] = $this->data;
-        } elseif ($this->error !== null) {
+        } elseif ($this->error instanceof ActionError) {
             $payload['error'] = $this->error;
         }
 

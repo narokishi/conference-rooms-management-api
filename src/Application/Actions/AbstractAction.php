@@ -10,7 +10,12 @@ use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
 
-abstract class Action
+/**
+ * Class AbstractAction
+ *
+ * @package App\Application\Actions
+ */
+abstract class AbstractAction
 {
     /**
      * @var LoggerInterface
@@ -98,12 +103,14 @@ abstract class Action
     }
 
     /**
-     * @param  array|object|null $data
+     * @param \JsonSerializable|null $data
+     *
      * @return Response
      */
-    protected function respondWithData($data = null): Response
+    protected function respondWithData(\JsonSerializable $data = null): Response
     {
         $payload = new ActionPayload(200, $data);
+
         return $this->respond($payload);
     }
 
