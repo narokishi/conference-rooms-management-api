@@ -7,7 +7,7 @@ namespace App\Domain\User;
  *
  * @package App\Domain\User
  */
-final class UserDTO
+final class UserDTO implements \JsonSerializable
 {
     /**
      * @var int
@@ -46,6 +46,21 @@ final class UserDTO
     }
 
     /**
+     * @param array $user
+     *
+     * @return static
+     */
+    public static function createFromArray(array $user): self
+    {
+        return new self(
+            $user['id'],
+            $user['username'],
+            $user['first_name'],
+            $user['last_name']
+        );
+    }
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -75,5 +90,13 @@ final class UserDTO
     public function getLastName(): string
     {
         return $this->lastName;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return get_object_vars($this);
     }
 }

@@ -3,9 +3,23 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
-use App\Domain\DomainException\DomainRecordNotFoundException;
+use App\Domain\DomainException\AbstractDomainNotFoundException;
+use App\Domain\Id;
 
-class UserNotFoundException extends DomainRecordNotFoundException
+/**
+ * Class UserNotFoundException
+ *
+ * @package App\Domain\User
+ */
+final class UserNotFoundException extends AbstractDomainNotFoundException
 {
-    public $message = 'The user you requested does not exist.';
+    /**
+     * UserNotFoundException constructor.
+     *
+     * @param Id $userId
+     */
+    public function __construct(Id $userId)
+    {
+        parent::__construct("User (ID: {$userId->get()}) you requested does not exist.");
+    }
 }

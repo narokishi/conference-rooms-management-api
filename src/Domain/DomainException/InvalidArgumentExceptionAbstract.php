@@ -7,7 +7,7 @@ namespace App\Domain\DomainException;
  *
  * @package App\Domain\DomainException
  */
-class InvalidArgumentException extends DomainException
+class InvalidArgumentExceptionAbstract extends AbstractDomainException
 {
 
 }

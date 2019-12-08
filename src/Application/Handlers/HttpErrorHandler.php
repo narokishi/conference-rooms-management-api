@@ -5,7 +5,7 @@ namespace App\Application\Handlers;
 
 use App\Application\Actions\ActionError;
 use App\Application\Actions\ActionPayload;
-use Exception;
+use App\Domain\DomainException\AbstractDomainException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpException;
@@ -31,6 +31,8 @@ class HttpErrorHandler extends SlimErrorHandler
             'An internal error has occurred while processing your request.'
         );
 
+        // TODO: Obsługa Exceptionów domenowych.
+
         if ($exception instanceof HttpException) {
             $statusCode = $exception->getCode();
             $error->setDescription($exception->getMessage());
@@ -52,7 +54,7 @@ class HttpErrorHandler extends SlimErrorHandler
 
         if (
             !($exception instanceof HttpException)
-            && ($exception instanceof Exception || $exception instanceof Throwable)
+            && ($exception instanceof \Exception || $exception instanceof Throwable)
             && $this->displayErrorDetails
         ) {
             $error->setDescription($exception->getMessage());

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Common;
 
-use App\Domain\Common\Exception\InvalidCollectionItemException;
-use App\Domain\Common\Exception\InvalidCollectionTypeException;
+use App\Domain\Common\Exception\InvalidCollectionItemExceptionCollectionException;
+use App\Domain\Common\Exception\InvalidCollectionTypeExceptionCollectionException;
 
 /**
  * Class AbstractCommonCollection
@@ -32,8 +32,8 @@ abstract class AbstractCommonCollection implements \IteratorAggregate, \JsonSeri
      * @param array $array
      *
      * @return static
-     * @throws InvalidCollectionItemException
-     * @throws InvalidCollectionTypeException
+     * @throws InvalidCollectionItemExceptionCollectionException
+     * @throws InvalidCollectionTypeExceptionCollectionException
      */
     public static function createFromArray(array $array)
     {
@@ -65,14 +65,14 @@ abstract class AbstractCommonCollection implements \IteratorAggregate, \JsonSeri
     /**
      * AbstractCommonV2Collection constructor.
      *
-     * @throws InvalidCollectionTypeException
+     * @throws InvalidCollectionTypeExceptionCollectionException
      */
     final public function __construct()
     {
         $this->collectionType = $this->getCollectionType();
 
         if (!is_string($this->collectionType)) {
-            throw new InvalidCollectionTypeException(sprintf(
+            throw new InvalidCollectionTypeExceptionCollectionException(sprintf(
                 'CollectionType declared in %s class is not valid. Must use "string" type.',
                 static::class
             ));
@@ -81,7 +81,7 @@ abstract class AbstractCommonCollection implements \IteratorAggregate, \JsonSeri
         if (!class_exists($this->collectionType)
             && !interface_exists($this->collectionType)
         ) {
-            throw new InvalidCollectionTypeException(
+            throw new InvalidCollectionTypeExceptionCollectionException(
                 "Class/interface \"$this->collectionType\" doesn't exists."
             );
         }
@@ -92,7 +92,7 @@ abstract class AbstractCommonCollection implements \IteratorAggregate, \JsonSeri
      * @param mixed $key
      *
      * @return $this
-     * @throws InvalidCollectionItemException
+     * @throws InvalidCollectionItemExceptionCollectionException
      */
     final public function addToCollection($collectionItem, $key = null)
     {
@@ -111,7 +111,7 @@ abstract class AbstractCommonCollection implements \IteratorAggregate, \JsonSeri
      * @param mixed $collectionItem
      *
      * @return bool
-     * @throws InvalidCollectionItemException
+     * @throws InvalidCollectionItemExceptionCollectionException
      */
     final public function removeFromCollection($collectionItem)
     {
@@ -148,7 +148,7 @@ abstract class AbstractCommonCollection implements \IteratorAggregate, \JsonSeri
      * @param mixed $collectionItem
      *
      * @return bool
-     * @throws InvalidCollectionItemException
+     * @throws InvalidCollectionItemExceptionCollectionException
      */
     final public function hasElement($collectionItem): bool
     {
@@ -161,7 +161,7 @@ abstract class AbstractCommonCollection implements \IteratorAggregate, \JsonSeri
      * @param mixed $collectionItem
      *
      * @return bool
-     * @throws InvalidCollectionItemException
+     * @throws InvalidCollectionItemExceptionCollectionException
      */
     final public function hasNotElement($collectionItem): bool
     {
@@ -183,12 +183,12 @@ abstract class AbstractCommonCollection implements \IteratorAggregate, \JsonSeri
      * @param mixed $collectionItem
      *
      * @return void
-     * @throws InvalidCollectionItemException
+     * @throws InvalidCollectionItemExceptionCollectionException
      */
     final private function checkIfDoesMatchCollectionType($collectionItem): void
     {
         if (!$collectionItem instanceof $this->collectionType) {
-            throw new InvalidCollectionItemException(sprintf(
+            throw new InvalidCollectionItemExceptionCollectionException(sprintf(
                 "CollectionItem must be typeof %s. Given: %s",
                 $this->collectionType,
                 is_object($collectionItem)

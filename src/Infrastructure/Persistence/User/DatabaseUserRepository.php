@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\User;
 
-use App\Domain\User\UserDTO;
-use App\Domain\User\UserDTOCollection;
+use App\Domain\Id;
 use App\Domain\User\UserRepositoryInterface;
 use App\Infrastructure\AbstractDatabaseRepository;
 
@@ -16,11 +15,9 @@ use App\Infrastructure\AbstractDatabaseRepository;
 final class DatabaseUserRepository extends AbstractDatabaseRepository implements UserRepositoryInterface
 {
     /**
-     * @return UserDTOCollection
-     * @throws \App\Domain\Common\Exception\InvalidCollectionItemException
-     * @throws \App\Domain\Common\Exception\InvalidCollectionTypeException
+     * @return array
      */
-    public function findAll(): UserDTOCollection
+    public function findAll(): array
     {
         $query = $this->db->query(<<<SQL
             SELECT
@@ -32,13 +29,34 @@ final class DatabaseUserRepository extends AbstractDatabaseRepository implements
               "user" AS u
         SQL);
 
-        return UserDTOCollection::createFromArray(
-            array_map(fn($user) => new UserDTO(
-                $user['id'],
-                $user['username'],
-                $user['first_name'],
-                $user['last_name']
-            ), $query->fetchAll())
-        );
+        return $query->fetchAll();
+    }
+
+    /**
+     * @param Id $userId
+     *
+     * @return array|null
+     */
+    public function findById(Id $userId): ?array
+    {
+        $query = $this->db->prepare(<<<SQL
+            SELECT
+              u.id,
+              u.username,
+              u.first_name,
+              u.last_name
+            FROM
+              "user" AS u
+            WHERE
+              u.id = :userId
+            LIMIT
+              1
+        SQL);
+
+        $query->execute([
+            'userId' => $userId->get(),
+        ]);
+
+        return $query->fetch() ?: null;
     }
 }

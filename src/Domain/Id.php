@@ -2,14 +2,14 @@
 
 namespace App\Domain;
 
-use App\Domain\DomainException\InvalidArgumentException;
+use App\Domain\DomainException\InvalidArgumentExceptionAbstract;
 
 /**
  * Class Id
  *
  * @package Domain
  */
-final class Id
+final class Id extends AbstractValueObject
 {
     /**
      * @const int
@@ -26,18 +26,20 @@ final class Id
      *
      * @param int $value
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentExceptionAbstract
      */
     public function __construct(int $value)
     {
         if ($value < self::POSTGRES_MIN_INT_SIZE
             || $value > self::POSTGRES_MAX_INT_SIZE
         ) {
-            throw new InvalidArgumentException(sprintf(
+            throw new InvalidArgumentExceptionAbstract(sprintf(
                 'Identifier value must be between %s and %s.',
                 self::POSTGRES_MIN_INT_SIZE,
                 self::POSTGRES_MAX_INT_SIZE
             ));
         }
+
+        parent::__construct($value);
     }
 }

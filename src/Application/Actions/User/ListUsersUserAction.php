@@ -19,7 +19,6 @@ final class ListUsersUserAction extends AbstractUserAction
     {
         $users = $this->userRepository->findAll();
 
-
         $this->logger->info("Users list was viewed.");
 
         return $this->respondWithData($users);

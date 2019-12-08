@@ -19,3 +19,20 @@ if (!function_exists('App/env')) {
         return $_ENV[$variableName];
     }
 }
+
+if (!function_exists('App/route')) {
+    /**
+     * @param string $className
+     * @param string|null $methodName
+     *
+     * @return string
+     */
+    function route(string $className, ?string $methodName = null)
+    {
+        if (!empty($methodName)) {
+            return $className . ':' . $methodName;
+        }
+
+        return $className;
+    }
+}

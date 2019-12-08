@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Actions;
 
-use App\Domain\DomainException\DomainRecordNotFoundException;
+use App\Domain\DomainException\AbstractDomainNotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -61,14 +61,14 @@ abstract class AbstractAction
 
         try {
             return $this->action();
-        } catch (DomainRecordNotFoundException $e) {
+        } catch (AbstractDomainNotFoundException $e) {
             throw new HttpNotFoundException($this->request, $e->getMessage());
         }
     }
 
     /**
      * @return Response
-     * @throws DomainRecordNotFoundException
+     * @throws AbstractDomainNotFoundException
      * @throws HttpBadRequestException
      */
     abstract protected function action(): Response;
