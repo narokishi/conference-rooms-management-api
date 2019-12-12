@@ -26,7 +26,7 @@ final class DatabaseUserRepository extends AbstractDatabaseRepository implements
               u.first_name,
               u.last_name
             FROM
-              "user" AS u
+              public.users AS u
         SQL);
 
         return $query->fetchAll();
@@ -46,7 +46,7 @@ final class DatabaseUserRepository extends AbstractDatabaseRepository implements
               u.first_name,
               u.last_name
             FROM
-              "user" AS u
+              public.users AS u
             WHERE
               u.id = :userId
             LIMIT

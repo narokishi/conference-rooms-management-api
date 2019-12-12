@@ -8,20 +8,6 @@ namespace App\Infrastructure;
  *
  * @package App\Infrastructure
  */
-abstract class AbstractDatabaseRepository
+abstract class AbstractDatabaseRepository extends AbstractDatabaseAccessObject
 {
-    /**
-     * @var \PDO
-     */
-    protected \PDO $db;
-
-    /**
-     * AbstractDatabaseRepository constructor.
-     *
-     * @param \PDO $db
-     */
-    final public function __construct(\PDO $db)
-    {
-        $this->db = $db;
-    }
 }
