@@ -36,7 +36,7 @@ final class UserService
     {
         return UserDTOCollection::createFromArray(
             array_map(
-                fn($user) => UserDTO::createFromArray($user),
+                fn(array $user) => UserDTO::createFromArray($user),
                 $this->userRepository->findAll()
             )
         );
