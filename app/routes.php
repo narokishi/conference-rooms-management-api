@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Controllers\AuthorizationController;
 use App\Application\Controllers\UserController;
 use App\Domain\Id;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -18,6 +19,10 @@ return function (App $app) {
 
     $app->group('/api', function (Group $group) {
         $group->group('/v1', function (Group $group) {
+            $group->group('/auth', function (Group $group) {
+                $group->post('/login', route(AuthorizationController::class, 'login'));
+            });
+
             $group->group('/users', function (Group $group) {
                 $group->get('', route(UserController::class, 'getAll'));
                 $group->get(

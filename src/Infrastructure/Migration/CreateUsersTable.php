@@ -30,7 +30,7 @@ final class CreateUsersTable extends AbstractMigration
                   id SERIAL,
                   first_name VARCHAR(64) NOT NULL,
                   last_name VARCHAR(64) NOT NULL,
-                  username VARCHAR(64) NOT NULL,
+                  username VARCHAR(64) NOT NULL UNIQUE,
                   password VARCHAR(256) NOT NULL,
                   created_at TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
                   updated_at TIMESTAMP(0) DEFAULT NULL

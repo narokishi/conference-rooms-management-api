@@ -3,7 +3,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Authorization;
 
+use App\Domain\Authorization\Exception\UnauthorizedCredentialsException;
 use App\Domain\Authorization\Hasher\HasherInterface;
+use App\Domain\Authorization\Query\LoginQuery;
+use App\Domain\Id;
+use App\Domain\Text;
 
 /**
  * Class AuthorizationService
@@ -34,5 +38,23 @@ final class AuthorizationService
     ) {
         $this->hasher = $hasher;
         $this->authorizationRepository = $authorizationRepository;
+    }
+
+    /**
+     * @param LoginQuery $query
+     *
+     * @throws UnauthorizedCredentialsException
+     */
+    public function login(LoginQuery $query)
+    {
+        $authId = $this->authorizationRepository->getAuthorizedUserId(
+            $query->setPassword(new Text(
+                $this->hasher->make($query->getPassword()->get())
+            ))
+        );
+
+        if (!$authId instanceof Id) {
+            throw new UnauthorizedCredentialsException();
+        }
     }
 }

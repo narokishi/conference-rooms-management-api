@@ -7,6 +7,8 @@ use App\Domain\Common\Exception\AbstractCollectionException;
 use App\Domain\Id;
 use App\Domain\User\UserNotFoundException;
 use App\Domain\User\UserService;
+use App\Infrastructure\Migration\CreateUsersTable;
+use App\Infrastructure\Migrator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
