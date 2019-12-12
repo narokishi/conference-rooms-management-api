@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Application\Controllers;
 
 use App\Domain\Authorization\AuthorizationService;
+use App\Domain\Authorization\Command\RegisterCommand;
 use App\Domain\Authorization\Exception\UnauthorizedCredentialsException;
+use App\Domain\Authorization\Exception\UsernameAlreadyTakenException;
 use App\Domain\Authorization\Query\LoginQuery;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
@@ -48,7 +50,7 @@ final class AuthorizationController extends AbstractController
     public function login(Request $request)
     {
         try {
-            $this->authorizationService->login(
+            $authId = $this->authorizationService->login(
                 LoginQuery::createFromPayload(
                     $this->getPayload($request, [
                         'username', 'password',
@@ -59,6 +61,32 @@ final class AuthorizationController extends AbstractController
             throw new HttpUnauthorizedException($request);
         }
 
-        return $this->getJsonResponse();
+        return $this->getJsonResponse($authId);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws HttpBadRequestException
+     */
+    public function register(Request $request)
+    {
+        try {
+            $authId = $this->authorizationService->register(
+                RegisterCommand::createFromPayload(
+                    $this->getPayload($request, [
+                        'firstName',
+                        'lastName',
+                        'username',
+                        'password',
+                    ])
+                )
+            );
+        } catch (UsernameAlreadyTakenException $e) {
+            throw new HttpBadRequestException($request, $e->getMessage());
+        }
+
+        return $this->getJsonResponse($authId);
     }
 }

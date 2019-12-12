@@ -8,7 +8,7 @@ namespace App\Domain;
  *
  * @package App\Domain
  */
-abstract class AbstractValueObject
+abstract class AbstractValueObject implements \JsonSerializable
 {
     /**
      * @var mixed
@@ -31,6 +31,14 @@ abstract class AbstractValueObject
     final public function get()
     {
         return $this->value;
+    }
+
+    /**
+     * @return mixed
+     */
+    final public function jsonSerialize()
+    {
+        return $this->get();
     }
 }
 

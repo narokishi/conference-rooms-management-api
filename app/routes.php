@@ -21,6 +21,7 @@ return function (App $app) {
         $group->group('/v1', function (Group $group) {
             $group->group('/auth', function (Group $group) {
                 $group->post('/login', route(AuthorizationController::class, 'login'));
+                $group->post('/register', route(AuthorizationController::class, 'register'));
             });
 
             $group->group('/users', function (Group $group) {

@@ -9,5 +9,4 @@ namespace App\Domain\DomainException;
  */
 class InvalidArgumentExceptionAbstract extends AbstractDomainException
 {
-
 }
