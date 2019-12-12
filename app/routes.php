@@ -19,7 +19,7 @@ return function (App $app) {
     $app->group('/api', function (Group $group) {
         $group->group('/v1', function (Group $group) {
             $group->group('/users', function (Group $group) {
-                $group->get('/', route(UserController::class, 'getAll'));
+                $group->get('', route(UserController::class, 'getAll'));
                 $group->get(
                     '/{userId:[1-9][0-9]*}',
                     fn ($request, $response, $args) => $group->getContainer()
