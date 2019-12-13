@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Persistence\Authorization;
 
 use App\Domain\Authorization\AuthorizationRepositoryInterface;
+use App\Domain\Authorization\AuthorizationUserDTO;
 use App\Domain\Authorization\Command\RegisterCommand;
 use App\Domain\Authorization\Query\LoginQuery;
 use App\Domain\DomainException\InvalidArgumentExceptionAbstract;
@@ -21,30 +22,30 @@ final class DatabaseAuthorizationRepository extends AbstractDatabaseRepository i
     /**
      * @param LoginQuery $query
      *
-     * @return mixed
+     * @return AuthorizationUserDTO|null
      * @throws InvalidArgumentExceptionAbstract
      */
-    public function getAuthorizedUserId(LoginQuery $query): ?Id
+    public function getAuthorizationUser(LoginQuery $query): ?AuthorizationUserDTO
     {
         $dbQuery = $this->db->prepare(<<<SQL
             SELECT
-              u.id
+              u.id,
+              u.password,
+              u.username
             FROM
               users AS u
             WHERE
               u.username = :username
-              AND u.password = :password
             LIMIT
               1
         SQL);
 
         $dbQuery->execute([
             'username' => $query->getUsername()->get(),
-            'password' => $query->getPassword()->get(),
         ]);
 
-        return ($userId = $dbQuery->fetchColumn())
-            ? new Id($userId) : null;
+        return ($authorizationUser = $dbQuery->fetch())
+            ? AuthorizationUserDTO::createFromArray($authorizationUser) : null;
     }
 
     /**

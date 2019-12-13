@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 use App\Domain\Authorization\AuthorizationRepositoryInterface;
+use App\Domain\Authorization\Hasher\ArgonHasher;
 use App\Domain\Authorization\Hasher\HasherInterface;
-use App\Domain\Authorization\Hasher\PlainTextHasher;
 use App\Domain\User\UserRepositoryInterface;
 use App\Infrastructure\Persistence\Authorization\DatabaseAuthorizationRepository;
 use App\Infrastructure\Persistence\User\DatabaseUserRepository;
@@ -16,5 +16,5 @@ return fn (ContainerBuilder $containerBuilder) => $containerBuilder->addDefiniti
     AuthorizationRepositoryInterface::class => autowire(DatabaseAuthorizationRepository::class),
 
     // Others
-    HasherInterface::class => autowire(PlainTextHasher::class),
+    HasherInterface::class => autowire(ArgonHasher::class),
 ]);

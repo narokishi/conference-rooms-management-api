@@ -18,9 +18,9 @@ interface AuthorizationRepositoryInterface
     /**
      * @param LoginQuery $query
      *
-     * @return Id|null
+     * @return AuthorizationUserDTO|null
      */
-    public function getAuthorizedUserId(LoginQuery $query): ?Id;
+    public function getAuthorizationUser(LoginQuery $query): ?AuthorizationUserDTO;
 
     /**
      * @param Text $username

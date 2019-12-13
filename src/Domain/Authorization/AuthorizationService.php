@@ -50,15 +50,20 @@ final class AuthorizationService
      */
     public function login(LoginQuery $query): Id
     {
-        $authId = $this->authorizationRepository->getAuthorizedUserId(
-            $this->hashPassword($query)
-        );
+        $authUser = $this->authorizationRepository->getAuthorizationUser($query);
 
-        if (!$authId instanceof Id) {
+        if (!$authUser instanceof AuthorizationUserDTO) {
             throw new UnauthorizedCredentialsException();
         }
 
-        return $authId;
+        if (!$this->hasher->check(
+            $query->getPassword()->get(),
+            $authUser->getHashedPassword()->get()
+        )) {
+            throw new UnauthorizedCredentialsException();
+        }
+
+        return $authUser->getId();
     }
 
     /**
@@ -74,21 +79,11 @@ final class AuthorizationService
         }
 
         $authId = $this->authorizationRepository->register(
-            $this->hashPassword($cmd)
+            $cmd->setPassword(new Text(
+                $this->hasher->make($cmd->getPassword()->get())
+            ))
         );
 
         return $authId;
-    }
-
-    /**
-     * @param PasswordableInterface $passwordable
-     *
-     * @return LoginQuery|RegisterCommand|PasswordableInterface
-     */
-    private function hashPassword(PasswordableInterface $passwordable): PasswordableInterface
-    {
-        return $passwordable->setPassword(new Text(
-            $this->hasher->make($passwordable->getPassword()->get())
-        ));
     }
 }

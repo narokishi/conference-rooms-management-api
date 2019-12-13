@@ -32,15 +32,4 @@ final class PlainTextHasher implements HasherInterface
     {
         return $value === $hashedValue;
     }
-
-    /**
-     * @param string $hashedValue
-     * @param array $options
-     *
-     * @return bool
-     */
-    public function needsRehash(string $hashedValue, array $options = []): bool
-    {
-        return false;
-    }
 }
