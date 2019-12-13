@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Application\Middleware\ApiAuthorizationMiddleware;
+use App\Application\Middleware\LanguageMiddleware;
 use App\Application\Middleware\SessionMiddleware;
 use Slim\App;
 
@@ -12,4 +13,5 @@ return function (App $app) {
     $app->add(new ApiAuthorizationMiddleware(
         $settings['apiKeys'] ?? []
     ));
+    $app->add(LanguageMiddleware::class);
 };

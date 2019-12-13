@@ -5,6 +5,7 @@ namespace App\Application\Controllers;
 
 use App\Domain\Text;
 use Psr\Http\Message\MessageInterface;
+use function App\setDomainCookie;
 
 /**
  * Class LanguageController
@@ -20,7 +21,7 @@ final class LanguageController extends AbstractController
      */
     public function set(Text $language): MessageInterface
     {
-        setcookie('X-Language', $language->get(), 0, '/');
+        setDomainCookie('X-Language', $language->get());
 
         return $this->getJsonResponse();
     }

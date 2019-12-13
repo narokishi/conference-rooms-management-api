@@ -5,7 +5,6 @@ namespace App\Application\Middleware;
 
 use App\Application\Middleware\Exception\InvalidAuthorizationKeyException;
 use App\Application\Middleware\Exception\MissingAuthorizationHeaderException;
-use DI\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface as Middleware;

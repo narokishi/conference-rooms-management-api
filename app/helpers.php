@@ -37,6 +37,19 @@ if (!function_exists('App/route')) {
     }
 }
 
+if (!function_exists('App/setDomainCookie')) {
+    /**
+     * @param string $cookie
+     * @param string $value
+     *
+     * @return void
+     */
+    function setDomainCookie(string $cookie, string $value): void
+    {
+        setcookie($cookie, $value, 0, '/');
+    }
+}
+
 if (!function_exists('App/getCookie')) {
     /**
      * @param string $cookie

@@ -17,7 +17,7 @@ final class Translation
     /**
      * @var array
      */
-    private array $languages = [
+    public static array $languages = [
         'pl' => Polish::class,
         'en' => English::class,
     ];
@@ -25,12 +25,17 @@ final class Translation
     /**
      * @var string
      */
-    private string $fallbackLanguage = 'en';
+    private static string $fallbackLanguage = 'en';
 
     /**
      * @var string
      */
-    private string $language;
+    private static string $language = 'en';
+
+    /**
+     * @var bool
+     */
+    private static bool $isLanguageForced = false;
 
     /**
      * @var array
@@ -40,17 +45,14 @@ final class Translation
     /**
      * Translation constructor.
      *
-     * @param string $language
-     *
      * @throws InvalidFallbackLanguageException
      */
-    public function __construct(?string $language = null)
+    public function __construct()
     {
-        if (!in_array($this->fallbackLanguage, array_keys($this->languages))) {
+        if (!in_array(self::$fallbackLanguage, array_keys(self::$languages))) {
             throw new InvalidFallbackLanguageException();
         }
 
-        $this->setLanguage($language ?: $this->fallbackLanguage);
         $this->compile();
     }
 
@@ -63,21 +65,30 @@ final class Translation
     public function get(string $translationKey, ?string $language = null): string
     {
         if (is_null($language)) {
-            $language = $this->language;
+            $language = self::$language;
         }
 
         return $this->compiledTranslations[$language][$translationKey]
-            ?? $this->compiledTranslations[$this->fallbackLanguage][$translationKey]
+            ?? $this->compiledTranslations[self::$fallbackLanguage][$translationKey]
             ?? '';
     }
 
     /**
      * @param string $language
+     * @param bool $forceLanguage
+     *
+     * @return void
      */
-    private function setLanguage(string $language)
+    public static function setLanguage(string $language, bool $forceLanguage = false): void
     {
-        $this->language = in_array($language, array_keys($this->languages))
-            ? $language : $this->fallbackLanguage;
+        if (!self::$isLanguageForced) {
+            if ($forceLanguage) {
+                self::$isLanguageForced = $forceLanguage;
+            }
+
+            self::$language = in_array($language, array_keys(self::$languages))
+                ? $language : self::$fallbackLanguage;
+        }
     }
 
     /**
@@ -86,7 +97,7 @@ final class Translation
     private function compile(): void
     {
         /** @var LanguageInterface $languageClass */
-        foreach ($this->languages as $language => $languageClass) {
+        foreach (self::$languages as $language => $languageClass) {
             $this->compiledTranslations[$language] = $languageClass::getTranslations();
         }
     }

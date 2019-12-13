@@ -46,11 +46,10 @@ return function (ContainerBuilder $containerBuilder) {
             return $pdo;
         },
         Translation::class => function (ContainerInterface $c) {
-            $settingsLanguage = $c->get('settings')['language'] ?? null;
+            $settingsLanguage = $c->get('settings')['language'] ?? '';
+            Translation::setLanguage(getCookie('X-Language') ?: $settingsLanguage);
 
-            return new Translation(
-                getCookie('X-Language') ?: $settingsLanguage
-            );
+            return new Translation();
         }
     ]);
 };

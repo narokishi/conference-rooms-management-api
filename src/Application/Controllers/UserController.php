@@ -5,7 +5,7 @@ namespace App\Application\Controllers;
 
 use App\Domain\Common\Exception\AbstractCollectionException;
 use App\Domain\Id;
-use App\Domain\User\UserNotFoundException;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\User\UserService;
 use Psr\Http\Message\MessageInterface;
 use Psr\Log\LoggerInterface;
