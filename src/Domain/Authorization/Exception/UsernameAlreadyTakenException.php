@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Domain\Authorization\Exception;
 
 use App\Domain\DomainException\AbstractDomainException;
-use App\Domain\Text;
 
 /**
  * Class UsernameAlreadyTakenException
@@ -13,16 +12,4 @@ use App\Domain\Text;
  */
 final class UsernameAlreadyTakenException extends AbstractDomainException
 {
-    /**
-     * UsernameAlreadyTakenException constructor.
-     *
-     * @param Text $username
-     */
-    public function __construct(Text $username)
-    {
-        parent::__construct(sprintf(
-            'Username "%s" is already taken.',
-            $username->get()
-        ));
-    }
 }

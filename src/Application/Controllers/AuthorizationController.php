@@ -8,6 +8,7 @@ use App\Domain\Authorization\Command\RegisterCommand;
 use App\Domain\Authorization\Exception\UnauthorizedCredentialsException;
 use App\Domain\Authorization\Exception\UsernameAlreadyTakenException;
 use App\Domain\Authorization\Query\LoginQuery;
+use Psr\Http\Message\MessageInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpUnauthorizedException;
@@ -43,11 +44,11 @@ final class AuthorizationController extends AbstractController
     /**
      * @param Request $request
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return MessageInterface
      * @throws HttpBadRequestException
      * @throws HttpUnauthorizedException
      */
-    public function login(Request $request)
+    public function login(Request $request): MessageInterface
     {
         try {
             $authId = $this->authorizationService->login(
@@ -67,10 +68,10 @@ final class AuthorizationController extends AbstractController
     /**
      * @param Request $request
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return MessageInterface
      * @throws HttpBadRequestException
      */
-    public function register(Request $request)
+    public function register(Request $request): MessageInterface
     {
         try {
             $authId = $this->authorizationService->register(

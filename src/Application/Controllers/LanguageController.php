@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Controllers;
 
 use App\Domain\Text;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\MessageInterface;
 
 /**
  * Class LanguageController
@@ -16,9 +16,9 @@ final class LanguageController extends AbstractController
     /**
      * @param Text $language
      *
-     * @return ResponseInterface
+     * @return MessageInterface
      */
-    public function set(Text $language): ResponseInterface
+    public function set(Text $language): MessageInterface
     {
         setcookie('X-Language', $language->get(), 0, '/');
 

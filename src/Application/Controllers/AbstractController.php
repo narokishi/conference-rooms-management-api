@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Controllers;
 
 use Fig\Http\Message\StatusCodeInterface;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\MessageInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Psr7\Request;
@@ -36,12 +36,12 @@ abstract class AbstractController
      * @param \JsonSerializable|null $data
      * @param int $statusCode
      *
-     * @return ResponseInterface
+     * @return MessageInterface
      */
     final protected function getJsonResponse(
         \JsonSerializable $data = null,
         int $statusCode = StatusCodeInterface::STATUS_OK
-    ): ResponseInterface {
+    ): MessageInterface {
         $serializedData = $data instanceof \JsonSerializable
             ? json_encode($data, JSON_THROW_ON_ERROR) : '';
 
@@ -50,9 +50,8 @@ abstract class AbstractController
                 ? StatusCodeInterface::STATUS_NO_CONTENT : $statusCode
         );
         $response->getBody()->write($serializedData);
-        $response->withHeader('Content-Type', 'application/json');
 
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**

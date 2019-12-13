@@ -11,6 +11,7 @@ use App\Domain\Authorization\Hasher\HasherInterface;
 use App\Domain\Authorization\Query\LoginQuery;
 use App\Domain\Id;
 use App\Domain\Text;
+use App\Domain\Translation\Translation;
 
 /**
  * Class AuthorizationService
@@ -30,23 +31,31 @@ final class AuthorizationService
     private AuthorizationRepositoryInterface $authorizationRepository;
 
     /**
+     * @var Translation
+     */
+    private $translation;
+
+    /**
      * AuthorizationService constructor.
      *
      * @param HasherInterface $hasher
      * @param AuthorizationRepositoryInterface $authorizationRepository
+     * @param Translation $translation
      */
     public function __construct(
         HasherInterface $hasher,
-        AuthorizationRepositoryInterface $authorizationRepository
+        AuthorizationRepositoryInterface $authorizationRepository,
+        Translation $translation
     ) {
         $this->hasher = $hasher;
         $this->authorizationRepository = $authorizationRepository;
+        $this->translation = $translation;
     }
 
     /**
      * @param LoginQuery $query
      *
-     * @return Id
+     * @return Text
      * @throws UnauthorizedCredentialsException
      */
     public function login(LoginQuery $query): Text
@@ -70,13 +79,16 @@ final class AuthorizationService
     /**
      * @param RegisterCommand $cmd
      *
-     * @return Id
+     * @return Text
      * @throws UsernameAlreadyTakenException
      */
     public function register(RegisterCommand $cmd): Text
     {
         if ($this->authorizationRepository->isUsernameTaken($cmd->getUsername())) {
-            throw new UsernameAlreadyTakenException($cmd->getUsername());
+            throw new UsernameAlreadyTakenException(sprintf(
+                $this->translation->get(UsernameAlreadyTakenException::class),
+                $cmd->getUsername()->get()
+            ));
         }
 
         return $this->getTokenByAuthId(

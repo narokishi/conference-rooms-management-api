@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Translation\Source;
 
+use App\Domain\Authorization\Exception\UsernameAlreadyTakenException;
 use App\Domain\Translation\LanguageInterface;
 use App\Domain\User\UserNotFoundException;
 
@@ -20,6 +21,7 @@ final class Polish implements LanguageInterface
     {
         return [
             UserNotFoundException::class => 'Użytkownik (ID: %s) nie istnieje.',
+            UsernameAlreadyTakenException::class => 'Nazwa użytkownika "%s" jest już zajęta.',
         ];
     }
 }

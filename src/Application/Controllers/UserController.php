@@ -5,10 +5,9 @@ namespace App\Application\Controllers;
 
 use App\Domain\Common\Exception\AbstractCollectionException;
 use App\Domain\Id;
-use App\Domain\Translation\Translation;
 use App\Domain\User\UserNotFoundException;
 use App\Domain\User\UserService;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\MessageInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -37,10 +36,10 @@ final class UserController extends AbstractController
     }
 
     /**
-     * @return ResponseInterface
+     * @return MessageInterface
      * @throws AbstractCollectionException
      */
-    public function getAll(): ResponseInterface
+    public function getAll(): MessageInterface
     {
         return $this->getJsonResponse(
             $this->userService->findAll()
@@ -50,10 +49,10 @@ final class UserController extends AbstractController
     /**
      * @param Id $userId
      *
-     * @return ResponseInterface
+     * @return MessageInterface
      * @throws UserNotFoundException
      */
-    public function getById(Id $userId)
+    public function getById(Id $userId): MessageInterface
     {
         return $this->getJsonResponse(
             $this->userService->findById($userId)
