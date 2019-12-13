@@ -24,5 +24,6 @@ return fn (ContainerBuilder $containerBuilder) => $containerBuilder->addDefiniti
         'apiKeys' => [
             'default' => env('DEFAULT_API_KEY'),
         ],
+        'language' => 'pl',
     ],
 ]);

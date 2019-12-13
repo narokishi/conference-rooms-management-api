@@ -1,12 +1,14 @@
 <?php
 declare(strict_types=1);
 
+use App\Domain\Translation\Translation;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use function App\getCookie;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -42,6 +44,13 @@ return function (ContainerBuilder $containerBuilder) {
             $pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
 
             return $pdo;
+        },
+        Translation::class => function (ContainerInterface $c) {
+            $settingsLanguage = $c->get('settings')['language'] ?? null;
+
+            return new Translation(
+                getCookie('X-Language') ?: $settingsLanguage
+            );
         }
     ]);
 };

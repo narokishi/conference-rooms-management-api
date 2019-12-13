@@ -5,6 +5,7 @@ namespace App\Domain\User;
 
 use App\Domain\Common\Exception\AbstractCollectionException;
 use App\Domain\Id;
+use App\Domain\Translation\Translation;
 
 /**
  * Class UserService
@@ -19,13 +20,22 @@ final class UserService
     private UserRepositoryInterface $userRepository;
 
     /**
+     * @var Translation
+     */
+    private Translation $translation;
+
+    /**
      * UserService constructor.
      *
      * @param UserRepositoryInterface $userRepository
+     * @param Translation $translation
      */
-    public function __construct(UserRepositoryInterface $userRepository)
-    {
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        Translation $translation
+    ) {
         $this->userRepository = $userRepository;
+        $this->translation = $translation;
     }
 
     /**
@@ -53,7 +63,10 @@ final class UserService
         $user = $this->userRepository->findById($userId);
 
         if (empty($user)) {
-            throw new UserNotFoundException($userId);
+            throw new UserNotFoundException(sprintf(
+                $this->translation->get(UserNotFoundException::class),
+                $userId->get()
+            ));
         }
 
         return UserDTO::createFromArray($user);
