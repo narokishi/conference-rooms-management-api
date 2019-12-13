@@ -6,6 +6,7 @@ namespace App\Domain\User;
 use App\Domain\Common\Exception\AbstractCollectionException;
 use App\Domain\Id;
 use App\Domain\Translation\Translation;
+use App\Domain\User\Exception\UserNotFoundException;
 
 /**
  * Class UserService

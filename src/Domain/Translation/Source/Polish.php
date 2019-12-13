@@ -5,7 +5,7 @@ namespace App\Domain\Translation\Source;
 
 use App\Domain\Authorization\Exception\UsernameAlreadyTakenException;
 use App\Domain\Translation\LanguageInterface;
-use App\Domain\User\UserNotFoundException;
+use App\Domain\User\Exception\UserNotFoundException;
 
 /**
  * Class Polish
