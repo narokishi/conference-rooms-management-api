@@ -51,7 +51,6 @@ final class DatabaseAuthorizationRepository extends AbstractDatabaseRepository i
      * @param Text $username
      *
      * @return bool
-     * @throws InvalidArgumentExceptionAbstract
      */
     public function isUsernameTaken(Text $username): bool
     {
