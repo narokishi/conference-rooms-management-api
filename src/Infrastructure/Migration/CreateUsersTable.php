@@ -35,6 +35,7 @@ final class CreateUsersTable extends AbstractMigration
                   created_at TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
                   updated_at TIMESTAMP(0) DEFAULT NULL
                 );
+                CREATE INDEX users_username_idx ON %table (username);
             SQL,
             self::TABLE_NAME
         ));

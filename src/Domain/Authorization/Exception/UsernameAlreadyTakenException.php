@@ -13,6 +13,11 @@ use App\Domain\Text;
  */
 final class UsernameAlreadyTakenException extends AbstractDomainException
 {
+    /**
+     * UsernameAlreadyTakenException constructor.
+     *
+     * @param Text $username
+     */
     public function __construct(Text $username)
     {
         parent::__construct(sprintf(

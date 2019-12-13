@@ -49,7 +49,7 @@ final class AuthorizationService
      * @return Id
      * @throws UnauthorizedCredentialsException
      */
-    public function login(LoginQuery $query): Id
+    public function login(LoginQuery $query): Text
     {
         $authUser = $this->authorizationRepository->getAuthorizationUser($query);
 
@@ -64,7 +64,7 @@ final class AuthorizationService
             throw new UnauthorizedCredentialsException();
         }
 
-        return $authUser->getId();
+        return $this->getTokenByAuthId($authUser->getId());
     }
 
     /**
@@ -73,19 +73,19 @@ final class AuthorizationService
      * @return Id
      * @throws UsernameAlreadyTakenException
      */
-    public function register(RegisterCommand $cmd): Id
+    public function register(RegisterCommand $cmd): Text
     {
         if ($this->authorizationRepository->isUsernameTaken($cmd->getUsername())) {
             throw new UsernameAlreadyTakenException($cmd->getUsername());
         }
 
-        $authId = $this->authorizationRepository->register(
-            $cmd->setPassword(new Text(
-                $this->hasher->make($cmd->getPassword()->get())
-            ))
+        return $this->getTokenByAuthId(
+            $this->authorizationRepository->register(
+                $cmd->setPassword(new Text(
+                    $this->hasher->make($cmd->getPassword()->get())
+                ))
+            )
         );
-
-        return $authId;
     }
 
     /**
@@ -96,5 +96,21 @@ final class AuthorizationService
     public function isValidToken(Text $token): bool
     {
         return $this->authorizationRepository->isValidToken($token);
+    }
+
+    /**
+     * @param Id $authId
+     *
+     * @return Text
+     */
+    private function getTokenByAuthId(Id $authId): Text
+    {
+        $activeToken = $this->authorizationRepository->getActiveTokenByAuthId($authId);
+
+        if ($activeToken instanceof Text) {
+            return $activeToken;
+        }
+
+        return $this->authorizationRepository->generateToken($authId);
     }
 }

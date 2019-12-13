@@ -118,21 +118,92 @@ final class DatabaseAuthorizationRepository extends AbstractDatabaseRepository i
     public function isValidToken(Text $token): bool
     {
         $dbQuery = $this->db->prepare(<<<SQL
-            SELECT
-              1
-            FROM
-              users_tokens AS ut
+            UPDATE
+              users_tokens
+            SET
+              expires_at = CURRENT_TIMESTAMP + INTERVAL '360 SECONDS'
             WHERE
-              ut.token = :token
-              AND ut.expires_at > CURRENT_TIMESTAMP
-            LIMIT
-              1
+              token = :token
+              AND expires_at > CURRENT_TIMESTAMP
         SQL);
 
         $dbQuery->execute([
             'token' => $token->get(),
         ]);
 
-        return !!$dbQuery->fetchColumn();
+        return $dbQuery->rowCount() > 0;
+    }
+
+    /**
+     * @param Id $authId
+     *
+     * @return Text|null
+     */
+    public function getActiveTokenByAuthId(Id $authId): ?Text
+    {
+        $dbQuery = $this->db->prepare(<<<SQL
+            UPDATE
+              users_tokens
+            SET
+              expires_at = CURRENT_TIMESTAMP + INTERVAL '360 SECONDS'
+            WHERE
+              user_id = :authId
+              AND expires_at > CURRENT_TIMESTAMP
+            RETURNING
+              token
+        SQL);
+
+        $dbQuery->execute([
+            'authId' => $authId->get(),
+        ]);
+
+        return ($activeToken = $dbQuery->fetchColumn())
+            ? new Text($activeToken) : null;
+    }
+
+    /**
+     * @param Id $authId
+     *
+     * @return Text
+     */
+    public function generateToken(Id $authId): Text
+    {
+        do {
+            $dbQuery = $this->db->prepare(<<<SQL
+                SELECT
+                  1
+                FROM
+                  users_tokens AS ut
+                WHERE
+                  ut.token = :token
+        SQL);
+
+            $token = md5(uniqid((string) rand(), true));
+            $dbQuery->execute([
+                'token' => $token,
+            ]);
+        } while (!!$dbQuery->fetchColumn());
+
+        $dbQuery = $this->db->prepare(<<<SQL
+            INSERT INTO
+              users_tokens (
+                user_id,
+                token,
+                expires_at
+              )
+            VALUES
+              (
+                 :authId,
+                 :token,
+                 CURRENT_TIMESTAMP + INTERVAL '360 SECONDS'
+              )
+        SQL);
+
+        $dbQuery->execute([
+            'authId' => $authId->get(),
+            'token' => $token,
+        ]);
+
+        return new Text($token);
     }
 }

@@ -43,4 +43,18 @@ interface AuthorizationRepositoryInterface
      * @return bool
      */
     public function isValidToken(Text $token): bool;
+
+    /**
+     * @param Id $authId
+     *
+     * @return Text|null
+     */
+    public function getActiveTokenByAuthId(Id $authId): ?Text;
+
+    /**
+     * @param Id $authId
+     *
+     * @return Text
+     */
+    public function generateToken(Id $authId): Text;
 }
