@@ -87,4 +87,14 @@ final class AuthorizationService
 
         return $authId;
     }
+
+    /**
+     * @param Text $token
+     *
+     * @return bool
+     */
+    public function isValidToken(Text $token): bool
+    {
+        return $this->authorizationRepository->isValidToken($token);
+    }
 }

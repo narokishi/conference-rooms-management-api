@@ -31,8 +31,10 @@ abstract class AbstractController
     {
         $this->logger = $logger;
     }
+
     /**
      * @param \JsonSerializable|null $data
+     * @param int $statusCode
      *
      * @return ResponseInterface
      */

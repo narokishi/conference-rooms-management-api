@@ -6,16 +6,16 @@ namespace App\Infrastructure\Migration;
 use App\Infrastructure\AbstractMigration;
 
 /**
- * Class CreateUsersTable
+ * Class CreateUsersTokensTable
  *
  * @package App\Infrastructure\Migration
  */
-final class CreateUsersTable extends AbstractMigration
+final class CreateUsersTokensTable extends AbstractMigration
 {
     /**
      * @const string
      */
-    private const TABLE_NAME = 'users';
+    private const TABLE_NAME = 'users_tokens';
 
     /**
      * @return void
@@ -28,13 +28,13 @@ final class CreateUsersTable extends AbstractMigration
             <<<SQL
                 CREATE TABLE %table (
                   id SERIAL PRIMARY KEY,
-                  first_name VARCHAR(64) NOT NULL,
-                  last_name VARCHAR(64) NOT NULL,
-                  username VARCHAR(64) NOT NULL UNIQUE,
-                  password VARCHAR(256) NOT NULL,
+                  user_id INT NOT NULL REFERENCES users (id),
+                  token VARCHAR(32) NOT NULL,
                   created_at TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  updated_at TIMESTAMP(0) DEFAULT NULL
+                  expires_at TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP + INTERVAL '3600 SECONDS'
                 );
+                CREATE INDEX users_tokens_token_idx ON %table (token);
+                CREATE INDEX users_tokens_user_id_idx ON %table (user_id);
             SQL,
             self::TABLE_NAME
         ));

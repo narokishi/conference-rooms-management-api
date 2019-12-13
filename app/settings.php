@@ -21,5 +21,8 @@ return fn (ContainerBuilder $containerBuilder) => $containerBuilder->addDefiniti
             'user' => env('POSTGRES_USER'),
             'password' => env('POSTGRES_PASSWORD'),
         ],
+        'apiKeys' => [
+            'default' => env('DEFAULT_API_KEY'),
+        ],
     ],
 ]);

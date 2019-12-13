@@ -5,7 +5,9 @@ namespace App\Infrastructure;
 
 use App\Infrastructure\InfrastructureException\InvalidMigrationException;
 use App\Infrastructure\InfrastructureException\MigrationDoesNotExistsException;
+use App\Infrastructure\InfrastructureException\TableDoesNotExistsException;
 use App\Infrastructure\Migration\CreateUsersTable;
+use App\Infrastructure\Migration\CreateUsersTokensTable;
 
 /**
  * Class Migrator
@@ -19,6 +21,7 @@ final class Migrator extends AbstractDatabaseAccessObject
      */
     private array $migrations = [
         CreateUsersTable::class,
+        CreateUsersTokensTable::class,
     ];
 
     /**
@@ -36,8 +39,10 @@ final class Migrator extends AbstractDatabaseAccessObject
      */
     public function downAll(): void
     {
-        foreach ($this->migrations as $migration) {
-            $this->downSingle($migration);
+        foreach (array_reverse($this->migrations) as $migration) {
+            try {
+                $this->downSingle($migration);
+            } catch (TableDoesNotExistsException $e) {}
         }
     }
 

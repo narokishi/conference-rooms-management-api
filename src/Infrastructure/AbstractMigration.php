@@ -29,6 +29,25 @@ abstract class AbstractMigration extends AbstractDatabaseAccessObject
     abstract public function down(): void;
 
     /**
+     * @param string $sqlStatement
+     * @param string $tableName
+     * @param string $schemaName
+     *
+     * @return string
+     */
+    final protected function prepareStatement(
+        string $sqlStatement,
+        string $tableName,
+        string $schemaName = 'public'
+    ): string {
+        return str_replace(
+            '%table',
+            $schemaName . '.' . $tableName,
+            $sqlStatement
+        );
+    }
+
+    /**
      * @param string $tableName
      * @param string $schemaName
      *
@@ -55,7 +74,7 @@ abstract class AbstractMigration extends AbstractDatabaseAccessObject
         string $tableName,
         string $schemaName = self::DEFAULT_SCHEMA_NAME
     ): void {
-        if ($this->doesTableExists($tableName, $schemaName)) {
+        if (!$this->doesTableExists($tableName, $schemaName)) {
             throw new TableDoesNotExistsException($tableName, $schemaName);
         }
     }

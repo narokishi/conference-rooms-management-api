@@ -36,4 +36,11 @@ interface AuthorizationRepositoryInterface
      * @return Id
      */
     public function register(RegisterCommand $cmd): Id;
+
+    /**
+     * @param Text $token
+     *
+     * @return bool
+     */
+    public function isValidToken(Text $token): bool;
 }

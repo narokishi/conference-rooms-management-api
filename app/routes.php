@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use App\Application\Controllers\AuthorizationController;
 use App\Application\Controllers\UserController;
+use App\Application\Middleware\UserAuthorizationMiddleware;
 use App\Domain\Id;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -24,17 +25,19 @@ return function (App $app) {
                 $group->post('/register', route(AuthorizationController::class, 'register'));
             });
 
-            $group->group('/users', function (Group $group) {
-                $group->get('', route(UserController::class, 'getAll'));
-                $group->get(
-                    '/{userId:[1-9][0-9]*}',
-                    fn ($request, $response, $args) => $group->getContainer()
-                        ->get(UserController::class)
-                        ->getById(
-                            new Id((int) $args['userId'])
-                        )
-                );
-            });
+            $group->group('', function (Group $group) {
+                $group->group('/users', function (Group $group) {
+                    $group->get('', route(UserController::class, 'getAll'));
+                    $group->get(
+                        '/{userId:[1-9][0-9]*}',
+                        fn ($request, $response, $args) => $group->getContainer()
+                            ->get(UserController::class)
+                            ->getById(
+                                new Id((int) $args['userId'])
+                            )
+                    );
+                });
+            })->add(UserAuthorizationMiddleware::class);
         });
     });
 };

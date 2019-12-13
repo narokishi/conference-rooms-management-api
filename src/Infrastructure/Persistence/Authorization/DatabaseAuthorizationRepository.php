@@ -109,4 +109,30 @@ final class DatabaseAuthorizationRepository extends AbstractDatabaseRepository i
 
         return new Id($dbQuery->fetchColumn());
     }
+
+    /**
+     * @param Text $token
+     *
+     * @return bool
+     */
+    public function isValidToken(Text $token): bool
+    {
+        $dbQuery = $this->db->prepare(<<<SQL
+            SELECT
+              1
+            FROM
+              users_tokens AS ut
+            WHERE
+              ut.token = :token
+              AND ut.expires_at > CURRENT_TIMESTAMP
+            LIMIT
+              1
+        SQL);
+
+        $dbQuery->execute([
+            'token' => $token->get(),
+        ]);
+
+        return !!$dbQuery->fetchColumn();
+    }
 }
