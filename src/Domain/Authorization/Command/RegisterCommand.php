@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Authorization\Command;
 
-use App\Domain\Authorization\PasswordableInterface;
 use App\Domain\Text;
 
 /**
@@ -11,7 +10,7 @@ use App\Domain\Text;
  *
  * @package App\Domain\Authorization\Command
  */
-final class RegisterCommand implements PasswordableInterface
+final class RegisterCommand
 {
     /**
      * @var Text

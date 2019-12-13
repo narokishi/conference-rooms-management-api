@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Domain\Authorization;
 
 use App\Domain\Authorization\Command\RegisterCommand;
+use App\Domain\Authorization\DTO\AuthorizationUserDTO;
 use App\Domain\Authorization\Exception\UnauthorizedCredentialsException;
 use App\Domain\Authorization\Exception\UsernameAlreadyTakenException;
 use App\Domain\Authorization\Hasher\HasherInterface;

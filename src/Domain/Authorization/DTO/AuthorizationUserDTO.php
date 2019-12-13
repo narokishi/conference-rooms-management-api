@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Authorization;
+namespace App\Domain\Authorization\DTO;
 
+use App\Domain\DomainException\InvalidArgumentExceptionAbstract;
 use App\Domain\Id;
 use App\Domain\Text;
 
@@ -46,7 +47,7 @@ final class AuthorizationUserDTO
      * @param array $authorizationUser
      *
      * @return self
-     * @throws \App\Domain\DomainException\InvalidArgumentExceptionAbstract
+     * @throws InvalidArgumentExceptionAbstract
      */
     public static function createFromArray(array $authorizationUser): self
     {

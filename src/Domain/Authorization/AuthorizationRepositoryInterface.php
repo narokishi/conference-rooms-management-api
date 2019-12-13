@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Domain\Authorization;
 
 use App\Domain\Authorization\Command\RegisterCommand;
+use App\Domain\Authorization\DTO\AuthorizationUserDTO;
 use App\Domain\Authorization\Query\LoginQuery;
 use App\Domain\Id;
 use App\Domain\Text;
