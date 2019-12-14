@@ -2,7 +2,9 @@
 declare(strict_types=1);
 
 use App\Application\Controllers\AuthorizationController;
+use App\Application\Controllers\ConferenceRoomController;
 use App\Application\Controllers\LanguageController;
+use App\Application\Controllers\ReservationController;
 use App\Application\Controllers\UserController;
 use App\Application\Middleware\UserAuthorizationMiddleware;
 use App\Domain\Id;
@@ -47,6 +49,28 @@ return function (App $app) {
                             ->get(UserController::class)
                             ->getById(
                                 new Id((int) $args['userId'])
+                            )
+                    );
+                });
+
+                $group->group('/conference-rooms', function (Group $group) {
+                    $group->get(
+                        '/{conferenceRoomId:[1-9][0-9]*}',
+                        fn ($request, $response, $args) => $group->getContainer()
+                            ->get(ConferenceRoomController::class)
+                            ->getById(
+                                new Id((int) $args['conferenceRoomId'])
+                            )
+                    );
+                });
+
+                $group->group('/reservations', function (Group $group) {
+                    $group->get(
+                        '/{reservationId:[1-9][0-9]*}',
+                        fn ($request, $response, $args) => $group->getContainer()
+                            ->get(ReservationController::class)
+                            ->getById(
+                                new Id((int) $args['reservationId'])
                             )
                     );
                 });

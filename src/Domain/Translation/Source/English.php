@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Domain\Translation\Source;
 
 use App\Domain\Authorization\Exception\UsernameAlreadyTakenException;
+use App\Domain\ConferenceRoom\Exception\ConferenceRoomNotFoundException;
+use App\Domain\Reservation\Exception\ReservationNotFoundException;
 use App\Domain\Translation\LanguageInterface;
 use App\Domain\User\Exception\UserNotFoundException;
 
@@ -22,6 +24,8 @@ final class English implements LanguageInterface
         return [
             UserNotFoundException::class => 'User (ID: %s) you requested does not exist.',
             UsernameAlreadyTakenException::class => 'Username "%s" is already taken.',
+            ReservationNotFoundException::class => 'Reservation (ID: %s) you requested does not exist.',
+            ConferenceRoomNotFoundException::class => 'Conference room (ID: %s) you requested does not exist.',
         ];
     }
 }
