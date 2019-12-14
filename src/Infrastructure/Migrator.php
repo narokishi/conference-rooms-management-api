@@ -6,6 +6,7 @@ namespace App\Infrastructure;
 use App\Infrastructure\InfrastructureException\InvalidMigrationException;
 use App\Infrastructure\InfrastructureException\MigrationDoesNotExistsException;
 use App\Infrastructure\InfrastructureException\TableDoesNotExistsException;
+use App\Infrastructure\Migration\CreateConferenceRoomsImagesTable;
 use App\Infrastructure\Migration\CreateConferenceRoomsTable;
 use App\Infrastructure\Migration\CreateReservationsTable;
 use App\Infrastructure\Migration\CreateUsersTable;
@@ -26,6 +27,7 @@ final class Migrator extends AbstractDatabaseAccessObject
         CreateUsersTokensTable::class,
         CreateConferenceRoomsTable::class,
         CreateReservationsTable::class,
+        CreateConferenceRoomsImagesTable::class,
     ];
 
     /**
