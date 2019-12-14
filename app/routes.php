@@ -54,6 +54,7 @@ return function (App $app) {
                 });
 
                 $group->group('/conference-rooms', function (Group $group) {
+                    $group->post('', route(ConferenceRoomController::class, 'create'));
                     $group->get(
                         '/{conferenceRoomId:[1-9][0-9]*}',
                         fn ($request, $response, $args) => $group->getContainer()

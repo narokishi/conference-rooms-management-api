@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\ConferenceRoom;
 
+use App\Domain\ConferenceRoom\Command\ConferenceRoomCreateCommand;
 use App\Domain\ConferenceRoom\Exception\ConferenceRoomNotFoundException;
 use App\Domain\Id;
 use App\Domain\Translation\Translation;
@@ -20,6 +21,11 @@ final class ConferenceRoomService
     private ConferenceRoomQueryRepositoryInterface $queryRepository;
 
     /**
+     * @var ConferenceRoomCommandRepositoryInterface
+     */
+    private ConferenceRoomCommandRepositoryInterface $cmdRepository;
+
+    /**
      * @var Translation
      */
     private Translation $translation;
@@ -28,13 +34,16 @@ final class ConferenceRoomService
      * ConferenceRoomService constructor.
      *
      * @param ConferenceRoomQueryRepositoryInterface $queryRepository
+     * @param ConferenceRoomCommandRepositoryInterface $cmdRepository
      * @param Translation $translation
      */
     public function __construct(
         ConferenceRoomQueryRepositoryInterface $queryRepository,
+        ConferenceRoomCommandRepositoryInterface $cmdRepository,
         Translation $translation
     ) {
         $this->queryRepository = $queryRepository;
+        $this->cmdRepository = $cmdRepository;
         $this->translation = $translation;
     }
 
@@ -57,5 +66,15 @@ final class ConferenceRoomService
         }
 
         return ConferenceRoomDTO::createFromArray($conferenceRoom);
+    }
+
+    /**
+     * @param ConferenceRoomCreateCommand $cmd
+     *
+     * @return Id
+     */
+    public function create(ConferenceRoomCreateCommand $cmd): Id
+    {
+        return $this->cmdRepository->create($cmd);
     }
 }
