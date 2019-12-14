@@ -6,11 +6,11 @@ namespace App\Domain\User;
 use App\Domain\Id;
 
 /**
- * Interface UserRepositoryInterface
+ * Interface UserQueryRepositoryInterface
  *
  * @package App\Domain\User
  */
-interface UserRepositoryInterface
+interface UserQueryRepositoryInterface
 {
     /**
      * @return array

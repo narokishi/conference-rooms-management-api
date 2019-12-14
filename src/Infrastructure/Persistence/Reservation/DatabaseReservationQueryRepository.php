@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Persistence\Reservation;
 
 use App\Domain\Id;
-use App\Domain\Reservation\ReservationRepositoryInterface;
+use App\Domain\Reservation\ReservationQueryRepositoryInterface;
 use App\Infrastructure\AbstractDatabaseRepository;
 
 /**
@@ -12,7 +12,7 @@ use App\Infrastructure\AbstractDatabaseRepository;
  *
  * @package App\Infrastructure\Persistence\Reservation
  */
-final class DatabaseReservationRepository extends AbstractDatabaseRepository implements ReservationRepositoryInterface
+final class DatabaseReservationQueryRepository extends AbstractDatabaseRepository implements ReservationQueryRepositoryInterface
 {
     /**
      * @param Id $reservationId

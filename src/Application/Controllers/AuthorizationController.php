@@ -51,7 +51,7 @@ final class AuthorizationController extends AbstractController
     public function login(Request $request): MessageInterface
     {
         try {
-            $authId = $this->authorizationService->login(
+            $authToken = $this->authorizationService->login(
                 LoginQuery::createFromPayload(
                     $this->getPayload($request, [
                         'username', 'password',
@@ -62,7 +62,7 @@ final class AuthorizationController extends AbstractController
             throw new HttpUnauthorizedException($request);
         }
 
-        return $this->getJsonResponse($authId);
+        return $this->getJsonResponse($authToken);
     }
 
     /**
@@ -74,7 +74,7 @@ final class AuthorizationController extends AbstractController
     public function register(Request $request): MessageInterface
     {
         try {
-            $authId = $this->authorizationService->register(
+            $authToken = $this->authorizationService->register(
                 RegisterCommand::createFromPayload(
                     $this->getPayload($request, [
                         'firstName',
@@ -88,6 +88,6 @@ final class AuthorizationController extends AbstractController
             throw new HttpBadRequestException($request, $e->getMessage());
         }
 
-        return $this->getJsonResponse($authId);
+        return $this->getJsonResponse($authToken);
     }
 }

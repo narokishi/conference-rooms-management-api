@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\ConferenceRoom;
 
-use App\Domain\ConferenceRoom\ConferenceRoomRepositoryInterface;
+use App\Domain\ConferenceRoom\ConferenceRoomQueryRepositoryInterface;
 use App\Domain\Id;
 use App\Infrastructure\AbstractDatabaseRepository;
 
 /**
- * Class DatabaseConferenceRoomRepository
+ * Class DatabaseConferenceRoomQueryRepository
  *
  * @package App\Infrastructure\Persistence\ConferenceRoom
  */
-final class DatabaseConferenceRoomRepository extends AbstractDatabaseRepository implements ConferenceRoomRepositoryInterface
+final class DatabaseConferenceRoomQueryRepository extends AbstractDatabaseRepository implements ConferenceRoomQueryRepositoryInterface
 {
     /**
      * @param Id $conferenceRoomId

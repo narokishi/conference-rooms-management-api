@@ -16,9 +16,9 @@ use App\Domain\User\Exception\UserNotFoundException;
 final class UserService
 {
     /**
-     * @var UserRepositoryInterface
+     * @var UserQueryRepositoryInterface
      */
-    private UserRepositoryInterface $userRepository;
+    private UserQueryRepositoryInterface $userRepository;
 
     /**
      * @var Translation
@@ -28,11 +28,11 @@ final class UserService
     /**
      * UserService constructor.
      *
-     * @param UserRepositoryInterface $userRepository
+     * @param UserQueryRepositoryInterface $userRepository
      * @param Translation $translation
      */
     public function __construct(
-        UserRepositoryInterface $userRepository,
+        UserQueryRepositoryInterface $userRepository,
         Translation $translation
     ) {
         $this->userRepository = $userRepository;

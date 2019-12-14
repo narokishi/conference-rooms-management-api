@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Persistence\User;
 
 use App\Domain\Id;
-use App\Domain\User\UserRepositoryInterface;
+use App\Domain\User\UserQueryRepositoryInterface;
 use App\Infrastructure\AbstractDatabaseRepository;
 
 /**
@@ -12,7 +12,7 @@ use App\Infrastructure\AbstractDatabaseRepository;
  *
  * @package App\Infrastructure\Persistence\User
  */
-final class DatabaseUserRepository extends AbstractDatabaseRepository implements UserRepositoryInterface
+final class DatabaseUserQueryRepository extends AbstractDatabaseRepository implements UserQueryRepositoryInterface
 {
     /**
      * @return array

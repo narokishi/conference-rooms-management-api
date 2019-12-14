@@ -6,11 +6,11 @@ namespace App\Domain\Reservation;
 use App\Domain\Id;
 
 /**
- * Interface ReservationRepositoryInterface
+ * Interface ReservationQueryRepositoryInterface
  *
  * @package App\Domain\Reservation
  */
-interface ReservationRepositoryInterface
+interface ReservationQueryRepositoryInterface
 {
     /**
      * @param Id $reservationId

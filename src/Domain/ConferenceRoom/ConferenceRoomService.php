@@ -15,9 +15,9 @@ use App\Domain\Translation\Translation;
 final class ConferenceRoomService
 {
     /**
-     * @var ConferenceRoomRepositoryInterface
+     * @var ConferenceRoomQueryRepositoryInterface
      */
-    private ConferenceRoomRepositoryInterface $conferenceRoomRepository;
+    private ConferenceRoomQueryRepositoryInterface $queryRepository;
 
     /**
      * @var Translation
@@ -27,14 +27,14 @@ final class ConferenceRoomService
     /**
      * ConferenceRoomService constructor.
      *
-     * @param ConferenceRoomRepositoryInterface $conferenceRoomRepository
+     * @param ConferenceRoomQueryRepositoryInterface $queryRepository
      * @param Translation $translation
      */
     public function __construct(
-        ConferenceRoomRepositoryInterface $conferenceRoomRepository,
+        ConferenceRoomQueryRepositoryInterface $queryRepository,
         Translation $translation
     ) {
-        $this->conferenceRoomRepository = $conferenceRoomRepository;
+        $this->queryRepository = $queryRepository;
         $this->translation = $translation;
     }
 
@@ -47,7 +47,7 @@ final class ConferenceRoomService
      */
     public function findById(Id $conferenceRoomId): ConferenceRoomDTO
     {
-        $conferenceRoom = $this->conferenceRoomRepository->findById($conferenceRoomId);
+        $conferenceRoom = $this->queryRepository->findById($conferenceRoomId);
 
         if (empty($conferenceRoom)) {
             throw new ConferenceRoomNotFoundException(sprintf(

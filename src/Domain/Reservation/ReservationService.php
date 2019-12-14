@@ -16,9 +16,9 @@ use App\Domain\Translation\Translation;
 final class ReservationService
 {
     /**
-     * @var ReservationRepositoryInterface
+     * @var ReservationQueryRepositoryInterface
      */
-    private ReservationRepositoryInterface $reservationRepository;
+    private ReservationQueryRepositoryInterface $queryRepository;
 
     /**
      * @var Translation
@@ -28,14 +28,14 @@ final class ReservationService
     /**
      * ReservationService constructor.
      *
-     * @param ReservationRepositoryInterface $reservationRepository
+     * @param ReservationQueryRepositoryInterface $queryRepository
      * @param Translation $translation
      */
     public function __construct(
-        ReservationRepositoryInterface $reservationRepository,
+        ReservationQueryRepositoryInterface $queryRepository,
         Translation $translation
     ) {
-        $this->reservationRepository = $reservationRepository;
+        $this->queryRepository = $queryRepository;
         $this->translation = $translation;
     }
 
@@ -47,7 +47,7 @@ final class ReservationService
      */
     public function findById(Id $reservationId): ReservationDTO
     {
-        $reservation = $this->reservationRepository->findById($reservationId);
+        $reservation = $this->queryRepository->findById($reservationId);
 
         if (empty($reservation)) {
             throw new ReservationNotFoundException(sprintf(

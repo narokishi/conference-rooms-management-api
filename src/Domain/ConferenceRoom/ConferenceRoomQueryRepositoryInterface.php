@@ -6,11 +6,11 @@ namespace App\Domain\ConferenceRoom;
 use App\Domain\Id;
 
 /**
- * Interface ConferenceRoomRepositoryInterface
+ * Interface ConferenceRoomQueryRepositoryInterface
  *
  * @package App\Domain\ConferenceRoom
  */
-interface ConferenceRoomRepositoryInterface
+interface ConferenceRoomQueryRepositoryInterface
 {
     /**
      * @param Id $conferenceRoomId

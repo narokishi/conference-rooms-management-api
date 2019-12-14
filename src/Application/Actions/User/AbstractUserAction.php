@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use App\Application\Actions\AbstractAction;
-use App\Domain\User\UserRepositoryInterface;
+use App\Domain\User\UserQueryRepositoryInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -15,17 +15,17 @@ use Psr\Log\LoggerInterface;
 abstract class AbstractUserAction extends AbstractAction
 {
     /**
-     * @var UserRepositoryInterface
+     * @var UserQueryRepositoryInterface
      */
-    protected UserRepositoryInterface $userRepository;
+    protected UserQueryRepositoryInterface $userRepository;
 
     /**
      * @param LoggerInterface $logger
-     * @param UserRepositoryInterface $userRepository
+     * @param UserQueryRepositoryInterface $userRepository
      */
     public function __construct(
         LoggerInterface $logger,
-        UserRepositoryInterface $userRepository
+        UserQueryRepositoryInterface $userRepository
     ) {
         parent::__construct($logger);
 
