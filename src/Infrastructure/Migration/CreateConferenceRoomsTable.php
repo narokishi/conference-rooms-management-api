@@ -30,7 +30,7 @@ final class CreateConferenceRoomsTable extends AbstractMigration
                   id SERIAL PRIMARY KEY,
                   name VARCHAR(64) NOT NULL,
                   created_at TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  updated_at TIMESTAMP(0)
+                  updated_at TIMESTAMP(0) DEFAULT NULL
                 );
             SQL,
             self::TABLE_NAME

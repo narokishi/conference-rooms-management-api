@@ -4,6 +4,7 @@ declare(strict_types=1);
 use App\Application\Controllers\AuthorizationController;
 use App\Application\Controllers\ConferenceRoomController;
 use App\Application\Controllers\LanguageController;
+use App\Application\Controllers\MigrationController;
 use App\Application\Controllers\ReservationController;
 use App\Application\Controllers\UserController;
 use App\Application\Middleware\UserAuthorizationMiddleware;
@@ -20,6 +21,11 @@ return function (App $app) {
         $response->getBody()->write('Conference Rooms Management Api is alive.');
 
         return $response;
+    });
+
+    $app->group('/migrations', function (Group $group) {
+        $group->post('/run-all', route(MigrationController::class, 'runAll'));
+        $group->post('/down-all', route(MigrationController::class, 'downAll'));
     });
 
     $app->group('/api', function (Group $group) {
@@ -66,6 +72,7 @@ return function (App $app) {
                 });
 
                 $group->group('/reservations', function (Group $group) {
+                    $group->post('', route(ReservationController::class, 'create'));
                     $group->get(
                         '/{reservationId:[1-9][0-9]*}',
                         fn ($request, $response, $args) => $group->getContainer()

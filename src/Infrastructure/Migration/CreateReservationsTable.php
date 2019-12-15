@@ -33,7 +33,7 @@ final class CreateReservationsTable extends AbstractMigration
                   starts_at TIMESTAMP(0) NOT NULL,
                   ends_at TIMESTAMP(0) NOT NULL,
                   created_at TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  updated_at TIMESTAMP(0)
+                  updated_at TIMESTAMP(0) DEFAULT NULL
                 );
                 CREATE INDEX reservations_user_id_idx ON %table (user_id);
                 CREATE INDEX reservations_conference_room_id_idx ON %table (conference_room_id);

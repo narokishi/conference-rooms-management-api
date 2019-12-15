@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Domain\Reservation;
 
 use App\Domain\Id;
+use App\Domain\Reservation\Command\ReservationCreateCommand;
 use App\Domain\Reservation\DTO\ReservationDTO;
 use App\Domain\Reservation\Exception\ReservationNotFoundException;
 use App\Domain\Translation\Translation;
@@ -21,6 +22,11 @@ final class ReservationService
     private ReservationQueryRepositoryInterface $queryRepository;
 
     /**
+     * @var ReservationCommandRepositoryInterface
+     */
+    private ReservationCommandRepositoryInterface $cmdRepository;
+
+    /**
      * @var Translation
      */
     private Translation $translation;
@@ -29,13 +35,16 @@ final class ReservationService
      * ReservationService constructor.
      *
      * @param ReservationQueryRepositoryInterface $queryRepository
+     * @param ReservationCommandRepositoryInterface $cmdRepository
      * @param Translation $translation
      */
     public function __construct(
         ReservationQueryRepositoryInterface $queryRepository,
+        ReservationCommandRepositoryInterface $cmdRepository,
         Translation $translation
     ) {
         $this->queryRepository = $queryRepository;
+        $this->cmdRepository = $cmdRepository;
         $this->translation = $translation;
     }
 
@@ -57,5 +66,15 @@ final class ReservationService
         }
 
         return ReservationDTO::createFromArray($reservation);
+    }
+
+    /**
+     * @param ReservationCreateCommand $cmd
+     *
+     * @return Id
+     */
+    public function create(ReservationCreateCommand $cmd): Id
+    {
+        return $this->cmdRepository->create($cmd);
     }
 }

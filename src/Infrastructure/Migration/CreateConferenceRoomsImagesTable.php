@@ -32,7 +32,7 @@ final class CreateConferenceRoomsImagesTable extends AbstractMigration
                   conference_room_id INT NOT NULL REFERENCES conference_rooms (id),
                   image_base64 TEXT NOT NULL,
                   created_at TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  updated_at TIMESTAMP(0)
+                  updated_at TIMESTAMP(0) DEFAULT NULL
                 );
                 CREATE INDEX conference_rooms_images_conference_room_id_idx ON %table (conference_room_id);
             SQL,

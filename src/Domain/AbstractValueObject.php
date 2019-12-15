@@ -28,7 +28,7 @@ abstract class AbstractValueObject implements \JsonSerializable
     /**
      * @return mixed
      */
-    final public function get()
+    public function get()
     {
         return $this->value;
     }

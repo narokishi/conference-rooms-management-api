@@ -6,11 +6,13 @@ use App\Domain\Authorization\Hasher\ArgonHasher;
 use App\Domain\Authorization\Hasher\HasherInterface;
 use App\Domain\ConferenceRoom\ConferenceRoomCommandRepositoryInterface;
 use App\Domain\ConferenceRoom\ConferenceRoomQueryRepositoryInterface;
+use App\Domain\Reservation\ReservationCommandRepositoryInterface;
 use App\Domain\Reservation\ReservationQueryRepositoryInterface;
 use App\Domain\User\UserQueryRepositoryInterface;
 use App\Infrastructure\Persistence\Authorization\DatabaseAuthorizationRepository;
 use App\Infrastructure\Persistence\ConferenceRoom\DatabaseConferenceRoomCommandRepository;
 use App\Infrastructure\Persistence\ConferenceRoom\DatabaseConferenceRoomQueryRepository;
+use App\Infrastructure\Persistence\Reservation\DatabaseReservationCommandRepository;
 use App\Infrastructure\Persistence\Reservation\DatabaseReservationQueryRepository;
 use App\Infrastructure\Persistence\User\DatabaseUserQueryRepository;
 use DI\ContainerBuilder;
@@ -23,6 +25,7 @@ return fn (ContainerBuilder $containerBuilder) => $containerBuilder->addDefiniti
     ConferenceRoomQueryRepositoryInterface::class => autowire(DatabaseConferenceRoomQueryRepository::class),
     ConferenceRoomCommandRepositoryInterface::class => autowire(DatabaseConferenceRoomCommandRepository::class),
     ReservationQueryRepositoryInterface::class => autowire(DatabaseReservationQueryRepository::class),
+    ReservationCommandRepositoryInterface::class => autowire(DatabaseReservationCommandRepository::class),
 
     // Others
     HasherInterface::class => autowire(ArgonHasher::class),
