@@ -95,7 +95,7 @@ final class ReservationController extends AbstractController
 
         try {
             $this->userService->findById($cmd->getUserId());
-            $this->conferenceRoomService->findById($cmd->getUserId());
+            $this->conferenceRoomService->findById($cmd->getConferenceRoomId());
         } catch (AbstractDomainNotFoundException $e) {
             throw new HttpNotFoundException($request, $e->getMessage());
         }
